@@ -1,12 +1,23 @@
 /*
 
 To do:
+
+get tabletop backbone working
+use backbone models for pages
+add URL routing
+switch templating to underscore files?
+info / about page
+responsive buttons working
+
+design info page
+design share functionality
+icons for share and info
+design tweaks to type (and look / read / do)
 pull in data for intro copy, date and image
 disable buttons when not clickable
-design updates
-responsive buttons working
 refine transitions. subtler.
-backbone.js to add url functionality?
+add tracking
+
 */
 
 require.config({
@@ -28,10 +39,10 @@ require.config({
         'jquery': {
             exports: '$'
         },
-   		'handlebars': {
-   			exports: 'Handlebars'
-   		},
-   		backbone: {
+		'handlebars': {
+			exports: 'Handlebars'
+		},
+		backbone: {
             'deps': ['jquery', 'underscore'],
             'exports': 'Backbone'
         },
@@ -89,7 +100,6 @@ function($, _, Backbone, Handlebars){
 
     });
 
- 
 //    project = new Project({title:'test', description:'01', tracks:[{title: 'Track A'}]});
  //   projectView = new ProjectView({model:project});
    // $('#container').append(projectView.render().el);
@@ -224,7 +234,8 @@ function($, _, Backbone, Handlebars){
 			$('.link-section').transit({
 				x: sideWidth,
 				opacity: 0
-			},function(){ 
+			},
+			function(){
 				//hange content links
 				updateData();
 				//$(this).html($('#week2').html());
