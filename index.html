@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Design Linking, Havas Worldwide London</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script type="text/javascript" src="//use.typekit.net/ouc6dmv.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        
+            <div class="topbar">
+                <a href="#" class="next-top">next week</a>
+                <a href="#" class="back-top">last week</a>
+                <a href="#" class="share-top">share</a>
+            </div>
+            
+            <!--  <div class="container"> -->
+            <div class="side-bar currentFont">
+                <div class="side-stuff">
+                    <h1>Design Linking<br>
+                    20th March 2013</h1>
+                   
+
+                   <div class="nav-box">
+                         <p class="share square-btn">share</p>
+                        <p class="share square-btn">info</p>
+                       
+                        <a href="#" class="back square-btn" id="biglast">last week</a>
+                         <a href="#" class="next square-btn" id="bignext">next week</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="link-section currentFont">
+                <div class="hero-unit">
+                    <h1 class="currentAlt">Design Thing<br>
+                    20th March 2013</h1>
+                    <p>Lorem ipsum dolor sit amet, <a href="#">consectetuer adipiscing</a> elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad <a href="#">minim veniam</a>, quis nostrud exerci tation ullamcorper <a href="#">suscipit lobortis nisl</a> ut aliquip ex ea commodo consequat.</p>
+                </div>
+
+                <div id="links">
+                    <img src="img/ajax-loader.gif">
+                </div>
+            </div>
+           
+
+           <script type="text/x-handlebars-template" id="links-template">
+               <div class="row">
+                    <div class="span4">
+                        <h2>Look</h2>                       
+                    </div>
+                    <div class="span8">
+                        <ul>
+                        {{#lookList}}
+                            <li><a href="{{link}}" target="_blank">{{description}}</a></li>
+                        {{/lookList}}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span4">
+                        <h2>Read</h2>                       
+                    </div>
+                    <div class="span8">
+                        <ul>
+                        {{#readList}}
+                            <li><a href="{{link}}" target="_blank">{{description}}</a></li>
+                        {{/readList}}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="span4">
+                        <h2>Do</h2>                       
+                    </div>
+                    <div class="span8">
+                        <ul>
+                        {{#doList}}
+                            <li><a href="{{link}}" target="_blank">{{description}}</a></li>
+                        {{/doList}}
+                        </ul>
+                    </div>
+                </div>
+
+            </script>
+
+           <!--  <footer>
+                <p>&copy; Company 2012</p>
+            </footer> -->
+
+       <!--  </div> --> <!-- /container -->
+        
+        <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+
+       <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/jquery.transit.min.js"></script>
+       
+        <script src="js/main.js"></script> 
+        <script src="js/handlebars.js"></script>
+         <script src="js/tabletop.js"></script>-->
+        
+        
+        <script data-main="js/main.js" src="js/vendor/require.js"></script>
+
+       <!--  <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script> -->
+    </body>
+</html>
