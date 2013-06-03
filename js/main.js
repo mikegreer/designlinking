@@ -135,7 +135,7 @@ function($, _, Backbone, Handlebars){
 			currentWeekIndex = weeksList.length-1;
 
 			//look up sheet in list
-			mostRecentSheet = weeksList[currentWeekIndex].sheets;
+			//mostRecentSheet = weeksList[currentWeekIndex].sheets;
 
 			updateData();
 		}
@@ -144,6 +144,7 @@ function($, _, Backbone, Handlebars){
 		Updates data and rerenders itd display
 		*/
 		function updateData(){
+            //console.log("build");
 			sheetToFetch = weeksList[currentWeekIndex].weeks;
 			var currentWeek = tt.models[sheetToFetch].all();
 
@@ -151,6 +152,11 @@ function($, _, Backbone, Handlebars){
 			lookList = [];
 			readList = [];
 			doList = [];
+
+            //get date, image and copy
+            var weekDate = weeksList[currentWeekIndex].weeks;
+            var weekCopy = weeksList[currentWeekIndex].intro;
+            var weekImage = weeksList[currentWeekIndex].imageurl;
 
 			//sort objects into correct lists
 			var length = currentWeek.length;
@@ -170,10 +176,15 @@ function($, _, Backbone, Handlebars){
 				}
 			}
 
-			//create template
+            //switch sidebar image and title
+            $('.side-bar').css("background-image", "url("+weekImage+")");
+			$('#weekOf').text(weekDate);
+            //render template
 			var source = $('#links-template').html();
 			var template = Handlebars.compile(source);
 			var context = {
+                date: weekDate,
+                copy: weekCopy,
 				lookList: lookList,
 				readList: readList,
 				doList: doList
@@ -220,9 +231,6 @@ function($, _, Backbone, Handlebars){
 			$('.side-bar').transit({
 				x: -sideWidth
 			}, function(){
-				//change side-bar date
-				//change side-bar image
-				//load these from sheets page
 				updateData();
 				//bring bar back on
 				$(this).transit({
@@ -234,9 +242,8 @@ function($, _, Backbone, Handlebars){
 			$('.link-section').transit({
 				x: sideWidth,
 				opacity: 0
-			},
-			function(){
-				//hange content links
+			}, function(){
+				//change content links
 				updateData();
 				//$(this).html($('#week2').html());
 				$(this).transition({
