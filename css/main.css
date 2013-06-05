@@ -34,6 +34,16 @@ body{
    
 }
 
+.replacement{
+	width: 200px;
+	text-align: center;
+	padding-top: 34px;
+	margin:  0 auto;
+	/*background: url('../img/ajax-loader.gif');*/
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 .share{
 	color: #fff;
 	text-align: right;
@@ -56,8 +66,6 @@ body{
 	border: 1px solid #DDD;
 	background-color: rgba(255, 61, 127, 0.3);
 }
-
-
 
 .row{
 	font-size: 15px;
@@ -120,7 +128,8 @@ body{
 	/*background-image: url('../img/bg_01.jpg');*/
 	/*background-scale: 100%;*/
 	/*background-image: url('http://farm9.staticflickr.com/8482/8193510874_e581de1707_h.jpg');*/
-	background-position: top right;
+	background-position: center;
+	background-size: cover;
 	/*background-attachment: fixed;*/
 }
 
@@ -135,7 +144,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a000000', e
 	padding-bottom: 400px;
 }
 
-.side-bar h1{
+.side-bar h1, .hero-unit h1{
 	margin-bottom: 26pt;
 	text-align: center;
 	margin: 0;
@@ -150,17 +159,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a000000', e
 }
 
 .hero-unit h1{
-	margin-bottom: 26pt;
-	font-size: 22px;
-	/*color: rgb(41, 186, 3);*/
-	color: rgb(235, 31, 97);;
+	text-align: left;
+	color: rgb(51, 51, 51);
 	display: none;
-	line-height: 34px;
-	font-weight: 200;
+	margin-bottom:  34px;
 }
 
 .nav-box{
-	width: 124px;
+	width: 183px;
 	height: 64px;
 	float: right;
 	clear: both;
@@ -178,6 +184,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a000000', e
 	text-indent: -99999px;
 }
 
+.btn-disabled{
+	opacity: .4;
+}
+
+.btn-disabled:hover{
+	background-color: #999;
+}
 
 .topbar{
 	height: 45px;
@@ -187,6 +200,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a000000', e
 	position: fixed;
 	width: 100%;
 	background-color: #fff;
+	z-index: 3000;
 }
 
 .topbar a{
@@ -209,7 +223,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a000000', e
 	float: right;
 }
 
-.share-top{
+.info-top{
 	padding: 12px;
 	float: left;
 }
@@ -265,7 +279,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a000000', e
 	}
 
 	.nav-box{
-		width: 248px;
+		/*width: 248px;*/
 		margin: 0 30px 0 0;
 	}
 

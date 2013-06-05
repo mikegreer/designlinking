@@ -72,8 +72,21 @@ function($, Handlebars){
 		tt = tabletop;
 		// get list of all weeks from key sheet
 		weeksList = tabletop.models['weeks'].all();
-		//most recent sheet
+		
+        //remove non-live weeks from the list
+        var length = weeksList.length;
+        var element = null;
+        for (var i = 0; i < length; i++) {
+            if(weeksList[i].live == 0){
+                weeksList.remove(i);
+            }
+        }
+
+        //most recent sheet
 		currentWeekIndex = weeksList.length-1;
+
+        //disable next week button
+        disableButton($('#bignext'));
 
 		updateData();
 	}
@@ -132,7 +145,10 @@ function($, Handlebars){
 	/*
 	Advance the display one week
 	*/
-	function nextWeek(){
+	/*function nextWeek(){
+
+        enableButton($('#biglast'));
+
 		if(currentWeekIndex >= weeksList.length-1){
 			console.log("We're not there yet");
 		}
@@ -140,21 +156,33 @@ function($, Handlebars){
 			console.log("Forward one week");
 			currentWeekIndex ++;
 			pageTransition();
+
+            if(currentWeekIndex >= weeksList.length-1){
+               disableButton($('#bignext'));
+            }
 		}
-	}
+	}*/
 
 	/*
 	Go back one week
 	*/
-	function backWeek(){
+	/*function backWeek(){
+
+        enableButton($('#bignext'));
+
 		if(currentWeekIndex <= 0){
 			console.log("Archive exhausted");
 		}else{
 			console.log("back one week");
 			currentWeekIndex --;
 			pageTransition();
+
+            if(currentWeekIndex <= 0){
+               disableButton($('#biglast'));
+            }
+
 		}
-	}
+	}*/
 
 	/*
 	Perform page transition: make this better
@@ -188,15 +216,130 @@ function($, Handlebars){
 		});
 	}
 
+    function pageTransitionNext(){
+        var sideWidth = $('.side-bar').width();
+        //content goes right and fades (link-section)
+        $('.link-section').transit({
+            x: -sideWidth,
+            opacity: 0
+        }, function(){
+            //change content links
+            updateData();
+            //$(this).html($('#week2').html());
+            $(this).css('x', sideWidth);
+            $(this).transition({
+                x: 0,
+                opacity: 1
+            });
+        });
+    }
+
+     function pageTransitionLast(){
+        var sideWidth = $('.side-bar').width();
+        //content goes right and fades (link-section)
+        $('.link-section').transit({
+            x: sideWidth,
+            opacity: 0
+        }, function(){
+            //change content links
+            updateData();
+            //$(this).html($('#week2').html());
+            $(this).css('x', -sideWidth);
+            $(this).transition({
+                x: 0,
+                opacity: 1
+            });
+        });
+    }
+
+    function disableButton(btn){
+        btn.addClass('btn-disabled');
+    }
+
+    function enableButton(btn){
+        btn.removeClass('btn-disabled');
+    }
+
+
 	/*
-	Click handlers
+	Buttons
 	*/
+    $('.info').click(function(){
+        console.log('infopanel');
+    });
+
 	$('#bignext').click(function(){
-		nextWeek();
+		enableButton($('#biglast'));
+
+        if(currentWeekIndex >= weeksList.length-1){
+            console.log("We're not there yet");
+        }
+        else{
+            console.log("Forward one week");
+            currentWeekIndex ++;
+            pageTransition();
+
+            if(currentWeekIndex >= weeksList.length-1){
+               disableButton($('#bignext'));
+            }
+        }
 	});
 
 	$('#biglast').click(function(){
-		backWeek();
+		enableButton($('#bignext'));
+
+        if(currentWeekIndex <= 0){
+            console.log("Archive exhausted");
+        }else{
+            console.log("back one week");
+            currentWeekIndex --;
+            pageTransition();
+
+            if(currentWeekIndex <= 0){
+               disableButton($('#biglast'));
+            }
+
+        }
 	});
+
+    $('#topnext').click(function(){
+        enableButton($('#toplast'));
+
+        if(currentWeekIndex >= weeksList.length-1){
+            console.log("We're not there yet");
+        }
+        else{
+            console.log("Forward one week");
+            currentWeekIndex ++;
+            pageTransitionNext();
+
+            if(currentWeekIndex >= weeksList.length-1){
+               disableButton($('#topnext'));
+            }
+        }
+    });
+
+    $('#toplast').click(function(){
+         enableButton($('#topnext'));
+
+        if(currentWeekIndex <= 0){
+            console.log("Archive exhausted");
+        }else{
+            console.log("back one week");
+            currentWeekIndex --;
+            pageTransitionLast();
+
+            if(currentWeekIndex <= 0){
+               disableButton($('#toplast'));
+            }
+
+        }
+    });
 });
+
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
 
