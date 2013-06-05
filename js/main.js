@@ -23,10 +23,15 @@ require.config({
         "jquery": "vendor/jquery",
         "jquery.transit": "vendor/jquery.transit.min",
         "handlebars": "vendor/handlebars",
-        "tabletop": "vendor/tabletop"
+        "tabletop": "vendor/tabletop",
+        "jquery.magnific": "vendor/jquery.magnific"
     },
     'shim':
     {
+        'jquery.magnific': {
+            deps: ['jquery'],
+            exports: '$'
+        },
 		'jquery.transit': {
             deps: ['jquery'],
             exports: '$'
@@ -44,6 +49,7 @@ require([
     'jquery',
     'handlebars',
     'tabletop',
+    'jquery.magnific',
     'jquery.transit'
 ],
 
@@ -143,48 +149,6 @@ function($, Handlebars){
 	}
 
 	/*
-	Advance the display one week
-	*/
-	/*function nextWeek(){
-
-        enableButton($('#biglast'));
-
-		if(currentWeekIndex >= weeksList.length-1){
-			console.log("We're not there yet");
-		}
-		else{
-			console.log("Forward one week");
-			currentWeekIndex ++;
-			pageTransition();
-
-            if(currentWeekIndex >= weeksList.length-1){
-               disableButton($('#bignext'));
-            }
-		}
-	}*/
-
-	/*
-	Go back one week
-	*/
-	/*function backWeek(){
-
-        enableButton($('#bignext'));
-
-		if(currentWeekIndex <= 0){
-			console.log("Archive exhausted");
-		}else{
-			console.log("back one week");
-			currentWeekIndex --;
-			pageTransition();
-
-            if(currentWeekIndex <= 0){
-               disableButton($('#biglast'));
-            }
-
-		}
-	}*/
-
-	/*
 	Perform page transition: make this better
 	*/
 	function pageTransition(){
@@ -234,7 +198,7 @@ function($, Handlebars){
         });
     }
 
-     function pageTransitionLast(){
+    function pageTransitionLast(){
         var sideWidth = $('.side-bar').width();
         //content goes right and fades (link-section)
         $('.link-section').transit({
@@ -264,6 +228,12 @@ function($, Handlebars){
 	/*
 	Buttons
 	*/
+
+    $('.info').magnificPopup({
+        type:'inline',
+        midClick: true
+    });
+
     $('.info').click(function(){
         console.log('infopanel');
     });
