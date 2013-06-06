@@ -32,16 +32,16 @@ require.config({
             deps: ['jquery'],
             exports: '$'
         },
-		'jquery.transit': {
+        'jquery.transit': {
             deps: ['jquery'],
             exports: '$'
         },
         'jquery': {
             exports: '$'
         },
-		'handlebars': {
-			exports: 'Handlebars'
-		}
+        'handlebars': {
+            exports: 'Handlebars'
+        }
     }
 });
 
@@ -54,31 +54,31 @@ require([
 ],
 
 function($, Handlebars){
-	var tt,
-	lookList = [],
-	readList = [],
-	doList = [],
-	currentWeekIndex = 0,
-	mostRecentSheet,
-	weeksList;
+    var tt,
+    lookList = [],
+    readList = [],
+    doList = [],
+    currentWeekIndex = 0,
+    mostRecentSheet,
+    weeksList;
 
-	//read in data from google spreadsheet w/ tabletop js
-	Tabletop.init({
-		key: '0AjaUg4bse8SndEZxY3prYjYxejNCU1Q0RlhzVHRPamc',
-		callback: createModels,
-		simpleSheet: false,
-		debug: true
-	});
+    //read in data from google spreadsheet w/ tabletop js
+    Tabletop.init({
+        key: '0AjaUg4bse8SndEZxY3prYjYxejNCU1Q0RlhzVHRPamc',
+        callback: createModels,
+        simpleSheet: false,
+        debug: true
+    });
 
-	/*
-	Called when data from spreadsheet is loaded
-	sets up initial variables and stores data for use
-	*/
-	function createModels(data, tabletop){
-		tt = tabletop;
-		// get list of all weeks from key sheet
-		weeksList = tabletop.models['weeks'].all();
-		
+    /*
+    Called when data from spreadsheet is loaded
+    sets up initial variables and stores data for use
+    */
+    function createModels(data, tabletop){
+        tt = tabletop;
+        // get list of all weeks from key sheet
+        weeksList = tabletop.models['weeks'].all();
+        
         //remove non-live weeks from the list
         var length = weeksList.length;
         var element = null;
@@ -89,99 +89,134 @@ function($, Handlebars){
         }
 
         //most recent sheet
-		currentWeekIndex = weeksList.length-1;
+        currentWeekIndex = weeksList.length-1;
 
         //disable next week button
         disableButton($('#bignext'));
 
-		updateData();
-	}
+        updateData();
+    }
 
-	/*
-	Updates data and rerenders display
-	*/
-	function updateData(){
-		sheetToFetch = weeksList[currentWeekIndex].weeks;
-		var currentWeek = tt.models[sheetToFetch].all();
+    /*
+    Updates data and rerenders display
+    */
+    function updateData(){
+        sheetToFetch = weeksList[currentWeekIndex].weeks;
+        var currentWeek = tt.models[sheetToFetch].all();
 
-		//clear arrays
-		lookList = [];
-		readList = [];
-		doList = [];
+        //clear arrays
+        lookList = [];
+        readList = [];
+        doList = [];
 
         //get date, image and copy
         var weekDate = weeksList[currentWeekIndex].weeks;
         var weekCopy = weeksList[currentWeekIndex].intro;
         var weekImage = weeksList[currentWeekIndex].imageurl;
 
-		//sort objects into correct lists
-		var length = currentWeek.length;
-		var element = null;
-		for (var i = 0; i < length; i++) {
-			element = currentWeek[i];
-			if(element.category == "look"){
-			//	element.category == null;
-			//	element.rowNumber = null;
-				lookList.push(element);
-			}
-			if(element.category == "read"){
-				readList.push(element);
-			}
-			if(element.category == "do"){
-				doList.push(element);
-			}
-		}
+        //sort objects into correct lists
+        var length = currentWeek.length;
+        var element = null;
+        for (var i = 0; i < length; i++) {
+            element = currentWeek[i];
+            if(element.category == "look"){
+            //  element.category == null;
+            //  element.rowNumber = null;
+                lookList.push(element);
+            }
+            if(element.category == "read"){
+                readList.push(element);
+            }
+            if(element.category == "do"){
+                doList.push(element);
+            }
+        }
 
         //switch sidebar image and title
-        $('.side-bar').css("background-image", "url("+weekImage+")");
-		$('#weekOf').text(weekDate);
+        $('.side-inner').css("background-image", "url("+weekImage+")");
+        $('#weekOf').text(weekDate);
         //render template
-		var source = $('#links-template').html();
-		var template = Handlebars.compile(source);
-		var context = {
+        var source = $('#links-template').html();
+        var template = Handlebars.compile(source);
+        var context = {
             date: weekDate,
             copy: weekCopy,
-			lookList: lookList,
-			readList: readList,
-			doList: doList
-		};
-		$('#links').html(template(context));
-	}
+            lookList: lookList,
+            readList: readList,
+            doList: doList
+        };
+        $('#links').html(template(context));
+    }
 
-	/*
-	Perform page transition: make this better
-	*/
-	function pageTransition(){
-		var sideWidth = $('.side-bar').width();
-		
-		//side-bar goes left.
-		$('.side-bar').transit({
-			x: -sideWidth
-		}, function(){
-			updateData();
-			//bring bar back on
-			$(this).transit({
-				x: 0
-			});
-		});
+    /*
+    Perform page transition: make this better
+    */
+    function pageTransitionR(){
+        var sideWidth = $('.side-inner').width();
+        
+        //side-bar goes left.
+        $('.side-inner').transit({
+            //x: -sideWidth,
+            opacity: 0,
+            duration: 200
 
-		//content goes right and fades (link-section)
-		$('.link-section').transit({
-			x: sideWidth,
-			opacity: 0
-		}, function(){
-			//change content links
-			updateData();
-			//$(this).html($('#week2').html());
-			$(this).transition({
-				x: 0,
-				opacity: 1
-			});
-		});
-	}
+        }, function(){
+            updateData();
+            //bring bar back on
+            $(this).transit({
+             //   x: 0,
+                opacity: 1,
+                duration: 300
+            });
+
+        });
+
+        $('.link-section').transit({
+            opacity: 0,
+            duration: 200
+        }, function(){
+            $(this).css('x', 40);
+        }).transit({
+            x: 0,
+            opacity: 1,
+            duration: 500
+        });
+    }
+
+    function pageTransitionL(){
+        var sideWidth = $('.side-inner').width();
+        
+        //side-bar goes left.
+        $('.side-inner').transit({
+            //x: -sideWidth,
+            opacity: 0,
+            duration: 200
+
+        }, function(){
+            updateData();
+            //bring bar back on
+            $(this).transit({
+             //   x: 0,
+                opacity: 1,
+                duration: 300
+            });
+
+        });
+
+        $('.link-section').transit({
+            opacity: 0,
+            duration: 200
+        }, function(){
+            $(this).css('x', -40);
+        }).transit({
+            x: 0,
+            opacity: 1,
+            duration: 500
+        });
+    }
 
     function pageTransitionNext(){
-        var sideWidth = $('.side-bar').width();
+        var sideWidth = $('.side-inner').width();
         //content goes right and fades (link-section)
         $('.link-section').transit({
             x: -sideWidth,
@@ -199,7 +234,7 @@ function($, Handlebars){
     }
 
     function pageTransitionLast(){
-        var sideWidth = $('.side-bar').width();
+        var sideWidth = $('.side-inner').width();
         //content goes right and fades (link-section)
         $('.link-section').transit({
             x: sideWidth,
@@ -225,9 +260,9 @@ function($, Handlebars){
     }
 
 
-	/*
-	Buttons
-	*/
+    /*
+    Buttons
+    */
 
     $('.info').magnificPopup({
         type:'inline',
@@ -238,8 +273,8 @@ function($, Handlebars){
         console.log('infopanel');
     });
 
-	$('#bignext').click(function(){
-		enableButton($('#biglast'));
+    $('#bignext').click(function(){
+        enableButton($('#biglast'));
 
         if(currentWeekIndex >= weeksList.length-1){
             console.log("We're not there yet");
@@ -247,30 +282,30 @@ function($, Handlebars){
         else{
             console.log("Forward one week");
             currentWeekIndex ++;
-            pageTransition();
+            pageTransitionR();
 
             if(currentWeekIndex >= weeksList.length-1){
                disableButton($('#bignext'));
             }
         }
-	});
+    });
 
-	$('#biglast').click(function(){
-		enableButton($('#bignext'));
+    $('#biglast').click(function(){
+        enableButton($('#bignext'));
 
         if(currentWeekIndex <= 0){
             console.log("Archive exhausted");
         }else{
             console.log("back one week");
             currentWeekIndex --;
-            pageTransition();
+            pageTransitionL();
 
             if(currentWeekIndex <= 0){
                disableButton($('#biglast'));
             }
 
         }
-	});
+    });
 
     $('#topnext').click(function(){
         enableButton($('#toplast'));
